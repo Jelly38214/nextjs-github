@@ -2,6 +2,8 @@ import App, { Container } from "next/app";
 import "antd/dist/antd.css";
 import Layout from "../components/Layout";
 import styled from "styled-components";
+import { Provider } from "react-redux";
+import withRedux from "../lib/with-redux";
 
 const Title = styled.h1`
   color: yellow;
@@ -9,10 +11,10 @@ const Title = styled.h1`
 `;
 
 class MyApp extends App {
-  static async getInitialProps(nextProps) {
+  static async getInitialProps(ctx) {
     let pageProps = {};
-    if (nextProps.Component.getInitialProps) {
-      pageProps = await nextProps.Component.getInitialProps();
+    if (ctx && ctx.Component && ctx.Component.getInitialProps) {
+      pageProps = await ctx.Component.getInitialProps();
     }
 
     return {
@@ -20,16 +22,18 @@ class MyApp extends App {
     };
   }
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, reduxStore } = this.props;
     return (
       <Container>
         <Layout>
-          <Title>ddd</Title>
-          <Component {...pageProps} />
+          <Provider store={reduxStore}>
+            <Title>Title</Title>
+            <Component {...pageProps} />
+          </Provider>
         </Layout>
       </Container>
     );
   }
 }
 
-export default MyApp;
+export default withRedux(MyApp);
