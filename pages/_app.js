@@ -1,6 +1,12 @@
 import App, { Container } from "next/app";
 import "antd/dist/antd.css";
 import Layout from "../components/Layout";
+import styled from "styled-components";
+
+const Title = styled.h1`
+  color: yellow;
+  font-size: 40px;
+`;
 
 class MyApp extends App {
   static async getInitialProps(nextProps) {
@@ -18,6 +24,7 @@ class MyApp extends App {
     return (
       <Container>
         <Layout>
+          <Title>ddd</Title>
           <Component {...pageProps} />
         </Layout>
       </Container>
